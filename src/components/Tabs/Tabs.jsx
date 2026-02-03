@@ -1,11 +1,24 @@
 export const Tabs = ({
-  tabsProps,
+  tabsProps = [],
   activeTabIdProps,
-  onTabSelectedProps,
+  onTabSelectedProps = () => {},
 }) => {
+  // se não houver tabs, não quebra
+  if (tabsProps.length === 0) {
+    return null;
+  }
+
   // fallback se activeTabId for inválido
   const activeTab =
     tabsProps.find(tab => tab.id === activeTabIdProps) || tabsProps[0];
+
+  const handleClick = (id) => {
+    if (id === activeTab.id) {
+      return;
+    }
+
+    onTabSelectedProps(id);
+  };
 
   return (
     <div className="section">
@@ -23,15 +36,11 @@ export const Tabs = ({
                 className={tab.id === activeTab.id ? 'is-active' : ''}
               >
                 <a
-                  href="{`#${tab.id}`}"
+                  href={`#${tab.id}`}
                   data-cy="TabLink"
                   onClick={(e) => {
                     e.preventDefault();
-
-                    // não chama callback se clicar no tab atual
-                    if (tab.id !== activeTab.id) {
-                      onTabSelectedProps(tab.id);
-                    }
+                    handleClick(tab.id);
                   }}
                 >
                   {tab.title}
