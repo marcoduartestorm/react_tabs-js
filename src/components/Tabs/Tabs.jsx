@@ -1,38 +1,50 @@
-export const Tabs = ({activeTabIdProps, onTabSelectedProps, tabsProps}) => {
+export const Tabs = ({
+  tabsProps,
+  activeTabIdProps,
+  onTabSelectedProps,
+}) => {
+  // fallback se activeTabId for inválido
+  const activeTab =
+    tabsProps.find(tab => tab.id === activeTabIdProps) || tabsProps[0];
 
   return (
-      <div className="section">
-        <h1 className="title">{`Selected tab is Tab ${activeTabIdProps[4]}`}</h1>
+    <div className="section">
+      <h1 className="title">
+        {`Selected tab is ${activeTab.title}`}
+      </h1>
 
-        <div data-cy="TabsComponent">
-          <div className="tabs is-boxed">
-            <ul>
-              {tabsProps.map(tab => {
-                return (
-                  <li
-                    className={activeTabIdProps === tab.id ? 'is-active' : ''}
-                    data-cy="Tab"
-                    key={tab.id}
-                  >
-                    <a
-                      onClick={() => {
-                        onTabSelectedProps(tab.id);
-                      }}
-                      href={`#${tab.id}`}
-                      data-cy="TabLink"
-                    >
-                      {`Tab ${tab.id[4]}`}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+      <div data-cy="TabsComponent">
+        <div className="tabs is-boxed">
+          <ul>
+            {tabsProps.map(tab => (
+              <li
+                key={tab.id}
+                data-cy="Tab"
+                className={tab.id === activeTab.id ? 'is-active' : ''}
+              >
+                <a
+                  href="{`#${tab.id}`}"
+                  data-cy="TabLink"
+                  onClick={(e) => {
+                    e.preventDefault();
 
-          <div className="block" data-cy="TabContent">
-            {`Some text ${activeTabIdProps[4]}`}
-          </div>
+                    // não chama callback se clicar no tab atual
+                    if (tab.id !== activeTab.id) {
+                      onTabSelectedProps(tab.id);
+                    }
+                  }}
+                >
+                  {tab.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="block" data-cy="TabContent">
+          {activeTab.content}
         </div>
       </div>
+    </div>
   );
 };

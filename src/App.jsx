@@ -14,10 +14,14 @@ export const App = () => {
   const [activeTabId, setActiveTabId] = useState(tabs[0].id);
 
   const onTabSelected = (id) => {
-    setActiveTabId(tabs[Number(id[4]) - 1].id);
+    setActiveTabId(id);
   };
 
   return (
-    <Tabs activeTabIdProps={activeTabId} onTabSelectedProps={onTabSelected} tabsProps={tabs}/>
+    <Tabs
+      tabsProps={tabs}
+      activeTabIdProps={activeTabId}
+      onTabSelectedProps={onTabSelected}
+    />
   );
 };
