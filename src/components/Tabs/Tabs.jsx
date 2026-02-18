@@ -1,35 +1,33 @@
 export const Tabs = ({
-  tabsProps = [],
-  activeTabIdProps,
-  onTabSelectedProps = () => {},
+  tabs = [],
+  activeTabId,
+  onTabSelected = () => {},
 }) => {
   // se não houver tabs, não quebra
-  if (tabsProps.length === 0) {
+  if (tabs.length === 0) {
     return null;
   }
 
   // fallback se activeTabId for inválido
   const activeTab =
-    tabsProps.find(tab => tab.id === activeTabIdProps) || tabsProps[0];
+    tabs.find(tab => tab.id === activeTabId) || tabs[0];
 
-  const handleClick = (id) => {
+  const handleClick = id => {
     if (id === activeTab.id) {
       return;
     }
 
-    onTabSelectedProps(id);
+    onTabSelected(id);
   };
 
   return (
     <div className="section">
-      <h1 className="title">
-        {`Selected tab is ${activeTab.title}`}
-      </h1>
+      <h1 className="title">{`Selected tab is ${activeTab.title}`}</h1>
 
       <div data-cy="TabsComponent">
         <div className="tabs is-boxed">
           <ul>
-            {tabsProps.map(tab => (
+            {tabs.map(tab => (
               <li
                 key={tab.id}
                 data-cy="Tab"
@@ -38,7 +36,7 @@ export const Tabs = ({
                 <a
                   href={`#${tab.id}`}
                   data-cy="TabLink"
-                  onClick={(e) => {
+                  onClick={e => {
                     e.preventDefault();
                     handleClick(tab.id);
                   }}
