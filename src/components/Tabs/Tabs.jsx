@@ -4,18 +4,12 @@ export const Tabs = ({ tabs, activeTabId, onTabSelected }) => {
   const activeTab = tabs.find(tab => tab.id === activeTabId) || tabs[0];
 
   const handleClick = id => {
-    if (id === activeTabId) {
+    if (id === activeTab.id) {
       return;
     }
 
     onTabSelected(id);
   };
-
-  // const changeActiveTabId = () => {
-  //  if(activeTabId !== 'tab-1' && activeTabId !== 'tab-2' && activeTabId !== 'tab-3') {
-  //    activeTabId2 = tabs[0].id;
-  //  }
-  // };
 
   return (
     <div data-cy="TabsComponent">
